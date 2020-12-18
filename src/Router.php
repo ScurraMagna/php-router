@@ -9,8 +9,6 @@ class Router
 
   protected $slugMarker = "&";
 
-  private $queryMarker = "#";
-
   private $url;
 
   private $routes = [];
