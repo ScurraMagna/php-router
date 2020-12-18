@@ -8,7 +8,7 @@ class Router
 {
   
   
-  private $regex = array("dir"=>"\b[^\.]+\b", "php"=>"\b[.]+\.php\b");
+  private $regex = array("dir"=>"/\b[^\.]+\b/", "php"=>"/\b[.]+\.php\b/");
   
   private $ROOT = str_replace("/index.php", "", $_SERVER['SCRIPT_FILENAME']);
 
