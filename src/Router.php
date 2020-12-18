@@ -32,7 +32,6 @@ class Router
   public function __construct($url)
   {
     $this->url = $url;
-    $this->query();
   }
 
   /**
@@ -88,22 +87,7 @@ class Router
   {
     $this->slugMarker = $char;
   }
-
-  public function queryMarker($char)
-  {
-    $this->queryMarker = $char;
-  }
-
-  public function query()
-  {
-    if(preg_match('#\/'.$this->queryMarker.'([\w*\/'.$this->slugMarker.']+)#', $this->url, $matches))
-    {
-      $_URL->QUERY = str_replace($matches[1], "", $this->url);
-      $_URL->USE = "/".$matches[1];
-      $this->url = $_URL->USE;
-    }
-  }
-
+  
   /**
    * check if given url match with the list of routes the web site has
    */
