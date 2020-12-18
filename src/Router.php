@@ -32,8 +32,7 @@ class Router
    *
    * @param string $url URL of the page
    */
-  public function __construct($url)
-  {
+  public function __construct($url) {
     $this->url = $url;
     $this->load();
   }
@@ -50,8 +49,7 @@ class Router
    * @param {string} $path the path
    * @param {function} $callable to do when in that path
    */
-  public function get($path, $callable, $name=null)
-  {
+  public function get($path, $callable, $name=null) {
     return $this->add($path, $callable, $name, 'GET');
   }
 
@@ -67,54 +65,43 @@ class Router
    * @param {string} $path the path
    * @param {function} $callable to do when in that path
    */
-  public function post($path, $callable, $name=null)
-  {
+  public function post($path, $callable, $name=null) {
     return $this->add($path, $callable, $name, 'POST');
   }
 
-  private function add($path, $callable, $name, $method)
-  {
+  private function add($path, $callable, $name, $method) {
     $route = new Route($path, $callable, $this->slugMarker);
     $this->routes[$method][] = $route;
-    if(is_string($callable) && $name===null)
-    {
+    if(is_string($callable) && $name===null) {
       $name = $callable;
     }
-    if($name)
-    {
+    if($name) {
       $this->namedRoutes[$name] = $route;
     }
     return $route;
   }
 
-  public function slugMarker($char)
-  {
+  public function slugMarker($char) {
     $this->slugMarker = $char;
   }
   
   /**
    * check if given url match with the list of routes the web site has
    */
-  public function run()
-  {
-    if(!isset($this->routes[$_SERVER['REQUEST_METHOD']]))
-    {
+  public function run() {
+    if(!isset($this->routes[$_SERVER['REQUEST_METHOD']])) {
       throw new RouterException('REQUEST_METHOD does not exist');
     }
-    foreach($this->routes[$_SERVER['REQUEST_METHOD']] as $route)
-    {
-      if($route->match($this->url))
-      {
+    foreach($this->routes[$_SERVER['REQUEST_METHOD']] as $route) {
+      if($route->match($this->url)) {
         return $route->call();
       }
     }
     throw new RouterException('No matching routes');
   }
 
-  public function url($name, $params=[])
-  {
-    if(!isset($this->namedRoutes[$name]))
-    {
+  public function url($name, $params=[]) {
+    if(!isset($this->namedRoutes[$name])) {
       throw new RouterException('No route matches this name');
     }
     return $this->namedRoutes[$name]->getUrl($params);
