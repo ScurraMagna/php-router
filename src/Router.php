@@ -30,6 +30,7 @@ class Router
   public function __construct($url)
   {
     $this->url = $url;
+    $this->load();
   }
 
   /**
@@ -113,5 +114,24 @@ class Router
     }
     return $this->namedRoutes[$name]->getUrl($params);
   }
+  
+  /**
+   * autoload all php files exept those put inside folder named "views" or "Views" 
+   * must be called before setting all routes
+   */
+  public function load($dirname) {
+    $dirname = $dirname ? $dirname : $this->ROOT;
+    $content = scandir($dirname);
+    for ($i=0; $i<count($content); $i++) {
+      if (preg_match($this->regex->php, $content[$i], $match)) {
+        require_once($dirname."/".$content[$i]);
+      }
+      elseif (preg_match($this->regex->dir, $content[$i], $match)
+              && !preg_match("[Vv]iews", $content[$i], $match)) {
+        $this->load($dirname."/".$content[$i]);
+      }
+    }
+  }
+  
 }
 ?>
