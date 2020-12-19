@@ -6,7 +6,7 @@ index.php
 include ("php-router/src/Router.php"); //if no framework used
 
 //create router
-$router = new App/Router ($_GET["url"]);
+$router = new App\Entry\Router ($_GET["url"]);
 
 //define routes
 $router->get("url/to/page/&slug", function ($slug) {
